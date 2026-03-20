@@ -11,29 +11,51 @@ class HomeScreen extends StatelessWidget {
     final nearby = dummyCompanies.where((c) => c.isOpen).take(2).toList();
 
     return Scaffold(
-      body: Column(
-        children: [
-          _buildHeader(context),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildServiceButtons(),
-                  const SizedBox(height: 20),
-                  const Text('Berhampiran kau',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 12),
-                  ...nearby.map((c) => _buildCompanyCard(context, c)),
-                ],
-              ),
-            ),
+  body: Column(
+    children: [
+      _buildHeader(context),
+      Expanded(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildServiceButtons(),
+              const SizedBox(height: 20),
+              const Text('Berhampiran kau',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              ...nearby.map((c) => _buildCompanyCard(context, c)),
+            ],
           ),
-        ],
+        ),
       ),
-    );
-  }
+    ],
+  ),
+  bottomNavigationBar: BottomNavigationBar(
+    currentIndex: 0,
+    selectedItemColor: const Color(0xFF1a73e8),
+    unselectedItemColor: Colors.grey,
+    onTap: (index) {
+      if (index == 1) {
+        Navigator.push(context,
+          MaterialPageRoute(builder: (_) => const ListScreen()));
+      }
+    },
+    items: const [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.list),
+        label: 'Senarai'),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profil'),
+    ],
+  ),
+);
+}
 
   Widget _buildHeader(BuildContext context) {
     return Container(
