@@ -1,0 +1,55 @@
+class TowingCompany {
+  final String name;
+  final String phone;
+  final String area;
+  final double rating;
+  final double distance;
+  final bool isOpen;
+  final String description;
+  final String priceFrom;
+
+  TowingCompany({
+    required this.name,
+    required this.phone,
+    required this.area,
+    required this.rating,
+    required this.distance,
+    required this.isOpen,
+    required this.description,
+    required this.priceFrom,
+  });
+}
+
+// Data dummy — nanti boleh connect ke Firebase
+final List<TowingCompany> dummyCompanies = [
+  TowingCompany(
+    name: 'BM Towing Service',
+    phone: '0123456789',
+    area: 'Bukit Mertajam',
+    rating: 4.5,
+    distance: 2.1,
+    isOpen: true,
+    description: 'Servis towing profesional kawasan Seberang Perai. Lesen JPJ & Insurans lengkap.',
+    priceFrom: 'RM80',
+  ),
+  TowingCompany(
+    name: 'SP Tow Pro',
+    phone: '0139876543',
+    area: 'Seberang Perai',
+    rating: 4.2,
+    distance: 3.8,
+    isOpen: true,
+    description: 'Towing 24 jam, response cepat. Meliputi seluruh Pulau Pinang.',
+    priceFrom: 'RM90',
+  ),
+  TowingCompany(
+    name: 'Penang Tow 24',
+    phone: '0111234567',
+    area: 'Kepala Batas',
+    rating: 4.0,
+    distance: 7.2,
+    isOpen: false,
+    description: 'Pakar towing kereta dan motosikal. Harga berpatutan.',
+    priceFrom: 'RM70',
+  ),
+];
