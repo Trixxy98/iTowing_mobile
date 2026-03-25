@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/towing_company.dart';
 import 'list_screen.dart';
 import 'detail_screen.dart';
+import 'profile_screen.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -37,11 +39,14 @@ class HomeScreen extends StatelessWidget {
     selectedItemColor: const Color(0xFF1a73e8),
     unselectedItemColor: Colors.grey,
     onTap: (index) {
-      if (index == 1) {
+    if (index == 1) {
+      Navigator.push(context,
+      MaterialPageRoute(builder: (_) => const ListScreen()));
+      } else if (index == 2) {
         Navigator.push(context,
-          MaterialPageRoute(builder: (_) => const ListScreen()));
-      }
-    },
+        MaterialPageRoute(builder: (_) => const ProfileScreen()));
+        }
+      },
     items: const [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
