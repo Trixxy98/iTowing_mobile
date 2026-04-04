@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/towing_company.dart';
+import '../services/firestore_service.dart';
 import 'detail_screen.dart';
 
 class ListScreen extends StatefulWidget {
@@ -13,11 +14,28 @@ class _ListScreenState extends State<ListScreen> {
   String searchQuery = '';
   String selectedFilter = 'Semua';
   final filters = ['Semua', 'Terdekat', 'Rating'];
+  final FirestoreService _service = FirestoreService();
+
+  List<TowingCompany> _allCompanies = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCompanies();
+  }
+
+  Future<void> _loadCompanies() async {
+    final companies = await _service.getCompanies();
+    setState(() {
+      _allCompanies = companies;
+      _isLoading = false;
+    });
+  }
 
   List<TowingCompany> get filteredList {
-    List<TowingCompany> result = dummyCompanies;
+    List<TowingCompany> result = _allCompanies;
 
-    // Search filter
     if (searchQuery.isNotEmpty) {
       result = result.where((c) =>
         c.name.toLowerCase().contains(searchQuery.toLowerCase()) ||
@@ -25,7 +43,6 @@ class _ListScreenState extends State<ListScreen> {
       ).toList();
     }
 
-    // Sort filter
     if (selectedFilter == 'Terdekat') {
       result.sort((a, b) => a.distance.compareTo(b.distance));
     } else if (selectedFilter == 'Rating') {
@@ -43,17 +60,24 @@ class _ListScreenState extends State<ListScreen> {
           _buildHeader(),
           _buildFilterChips(),
           Expanded(
-            child: filteredList.isEmpty
+            child: _isLoading
               ? const Center(
-                  child: Text('Tiada hasil dijumpai',
-                    style: TextStyle(color: Colors.grey)))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: filteredList.length,
-                  itemBuilder: (context, index) {
-                    return _buildCompanyCard(filteredList[index]);
-                  },
-                ),
+                  child: CircularProgressIndicator(
+                    color: Color(0xFF1a73e8)))
+              : filteredList.isEmpty
+                ? const Center(
+                    child: Text('Tiada hasil dijumpai',
+                      style: TextStyle(color: Colors.grey)))
+                : RefreshIndicator(
+                    onRefresh: _loadCompanies,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: filteredList.length,
+                      itemBuilder: (context, index) {
+                        return _buildCompanyCard(filteredList[index]);
+                      },
+                    ),
+                  ),
           ),
         ],
       ),
