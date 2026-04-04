@@ -8,8 +8,8 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _buildHeader(),
-          Expanded(
+          _buildHeader(context),  // tambah context kat sini
+        Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -26,16 +26,24 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 20),
-      color: const Color(0xFF1a73e8),
-      child: const Text('Profil Saya',
-        style: TextStyle(color: Colors.white,
-          fontSize: 20, fontWeight: FontWeight.bold)),
-    );
-  }
+  Widget _buildHeader(BuildContext context) {
+  return Container(
+    width: double.infinity,
+    padding: const EdgeInsets.fromLTRB(16, 50, 16, 20),
+    color: const Color(0xFF1a73e8),
+    child: Row(
+      children: [
+        GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back, color: Colors.white)),
+        const SizedBox(width: 12),
+        const Text('Profil Saya',
+          style: TextStyle(color: Colors.white,
+            fontSize: 20, fontWeight: FontWeight.bold)),
+      ],
+    ),
+  );
+}
 
   Widget _buildProfileCard() {
     return Container(
