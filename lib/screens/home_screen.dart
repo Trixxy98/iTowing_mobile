@@ -3,6 +3,7 @@ import '../models/towing_company.dart';
 import 'list_screen.dart';
 import 'detail_screen.dart';
 import 'profile_screen.dart';
+import 'map_screen.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -63,41 +64,62 @@ class HomeScreen extends StatelessWidget {
 }
 
   Widget _buildHeader(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
-      color: const Color(0xFF1a73e8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Lokasi semasa',
-            style: TextStyle(color: Colors.white70, fontSize: 13)),
-          const Text('Bukit Mertajam, Penang',
-            style: TextStyle(color: Colors.white,
-              fontSize: 16, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
-          GestureDetector(
-            onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const ListScreen())),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8)),
-              child: const Row(
-                children: [
-                  Icon(Icons.search, color: Colors.grey, size: 18),
-                  SizedBox(width: 8),
-                  Text('Cari towing berhampiran...',
-                    style: TextStyle(color: Colors.grey, fontSize: 14)),
-                ],
-              ),
+  return Container(
+    width: double.infinity,
+    padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+    color: const Color(0xFF1a73e8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Lokasi semasa',
+                  style: TextStyle(color: Colors.white70, fontSize: 13)),
+                Text('Bukit Mertajam, Penang',
+                  style: TextStyle(color: Colors.white,
+                    fontSize: 16, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            GestureDetector(
+              onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const MapScreen())),
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white24,
+                  borderRadius: BorderRadius.circular(8)),
+                child: const Icon(Icons.map,
+                  color: Colors.white, size: 22)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        GestureDetector(
+          onTap: () => Navigator.push(context,
+            MaterialPageRoute(builder: (_) => const ListScreen())),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8)),
+            child: const Row(
+              children: [
+                Icon(Icons.search, color: Colors.grey, size: 18),
+                SizedBox(width: 8),
+                Text('Cari towing berhampiran...',
+                  style: TextStyle(color: Colors.grey, fontSize: 14)),
+              ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 
   Widget _buildServiceButtons() {
     return Column(

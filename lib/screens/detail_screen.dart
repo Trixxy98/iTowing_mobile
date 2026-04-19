@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/towing_company.dart';
 
@@ -33,6 +36,8 @@ class DetailScreen extends StatelessWidget {
                   _buildCompanyInfo(),
                   const SizedBox(height: 16),
                   _buildInfoCard(),
+                  const SizedBox(height: 16),
+                  _buildLocationMap(),
                   const SizedBox(height: 16),
                   _buildDescription(),
                   const SizedBox(height: 24),
@@ -109,6 +114,54 @@ class DetailScreen extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  /// Peta mini ikut `latitude` / `longitude` syarikat (sama data dengan Firestore).
+  Widget _buildLocationMap() {
+    final pos = LatLng(company.latitude, company.longitude);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Lokasi pada peta',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: SizedBox(
+            height: 220,
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: pos,
+                zoom: 15,
+              ),
+              markers: {
+                Marker(
+                  markerId: MarkerId('detail_${company.id}'),
+                  position: pos,
+                  infoWindow: InfoWindow(title: company.name, snippet: company.area),
+                ),
+              },
+              zoomControlsEnabled: false,
+              myLocationButtonEnabled: false,
+              mapToolbarEnabled: false,
+              compassEnabled: false,
+              gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                Factory<OneSequenceGestureRecognizer>(
+                  EagerGestureRecognizer.new,
+                ),
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          '${company.latitude.toStringAsFixed(5)}, ${company.longitude.toStringAsFixed(5)}',
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
         ),
       ],
     );
